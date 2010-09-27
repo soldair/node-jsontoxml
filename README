@@ -1,0 +1,63 @@
+This is a library designed to render js objects as xml.
+Its not made to parse or otherwise edit existing xml/html structures.
+For that and perhaps as a compliment to this you can use jsdom for editing existing markup.
+
+Its real easy to make xml. I made this because i wanted to abstract away the fact that antiquated external systems require post data as xml and i wanted to expose a standard js calling api like my other interfaces.
+I did not want to instantiate an entire window to perform simple updates to tags in lower level functions (like injecting api keys).
+
+HOW TO INSTALL:
+
+NPM:
+
+npm install jsontoxml
+
+Git:
+
+git clone git://github.com/soldair/node-json_to_xml.git
+
+
+HOW TO USE:
+
+var jsonxml = require('jsonxml');
+
+jsonxml.obj_to_xml({
+	node:'text content',
+	parent:[
+		{name:'taco',text:'beef taco',children:{salsa:'hot!'}},
+		{name:'taco',text:'fish taco',attrs:{mood:'sad'},children:[
+			{name:'salsa',text:'mild'},
+			'hi',
+			{name:'salsa',text:'weak',attrs:{type:2}}
+		]},
+		{name:'taco',attrs:'mood="party!"'}
+	],
+	parent2:{
+		hi:'is a nice thing to say',
+		node:'i am another not special child node'
+		date:function(){
+			return (new Date())+'';
+		}
+	}
+})
+
+outputs:  // ! output is not tabbed this is an example
+
+<node>text content</node>
+<parent>
+	<taco>
+		beef taco
+		<salsa>hot!</salsa>
+	</taco>
+	<taco>
+		fish taco
+		<salsa>mild</salsa>
+		hi
+		<salsa type="2">weak</salsa>
+	</taco>
+	<taco mood='party!'/>
+</parent>
+<parent2>
+	<hi>is a nice thing to say</hi>
+	<node>i am another not special child node</node>
+	<date>Sun Sep 26 2010 17:27:29 GMT-0700 (PDT)</date>
+</parent2>

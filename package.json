@@ -1,0 +1,19 @@
+{
+	"name":"jsontoxml",
+	"version":"0.0.1",
+	"description":"This renders a simple javascript object structure into reasonably complicated xml/html. js objects are easier to modify than strings so no need to parse a whole dom to reliably add a few elements",
+	"homepage":"http://github.com/soldair/node-json_to_xml",
+	"main":"jsontoxml",
+	"people":{
+		"author":{
+			"name":"Ryan Day",
+			"email":"soldair@gmail.com",
+			"url":"http://ryanday.org"
+		}
+	},
+	"repository":{
+		"type":"git",
+		"url":"git://github.com/soldair/node-json_to_xml.git"
+	},
+	"engines":{"node":">=0.2.0"}
+}
