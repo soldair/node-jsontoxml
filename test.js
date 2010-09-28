@@ -1,5 +1,11 @@
 /*
 copyright Ryan Day 2010 <http://ryanday.org> [MIT Licensed]
+
+no testing framework required!
+
+HOW TO:
+node test.js
+
 */
 
 var jsonxml = require("./jsontoxml.js");
@@ -14,7 +20,7 @@ var input = {
 			'hi',
 			{name:'salsa',text:'weak',attrs:{type:2}}
 		]},
-		{name:'taco',attrs:'mood="party!"'}
+		{name:'taco',attrs:"mood='party!'"}
 	],
 	parent2:{
 		hi:'is a nice thing to say',
@@ -31,7 +37,7 @@ var expected = '<node>text content</node>'
 			+'beef taco'
 			+'<salsa>hot!</salsa>'
 		+'</taco>'
-		+'<taco>'
+		+'<taco mood="sad">'
 			+'fish taco'
 			+'<salsa>mild</salsa>'
 			+'hi'
@@ -44,7 +50,7 @@ var expected = '<node>text content</node>'
 		+'<node>i am another not special child node</node>'
 		+'<date>'+date+'</date>'
 	+'</parent2>';
-	
+
 	
 var result = jsonxml.obj_to_xml(input);
 

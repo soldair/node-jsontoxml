@@ -59,8 +59,24 @@ outputs:  // ! output is not tabbed this is an example
 	<date>Sun Sep 26 2010 17:27:29 GMT-0700 (PDT)</date>
 </parent2>
 
-*/
 
+<node>text content</node>
+<parent>
+	<taco>beef taco</taco>
+	<taco mood="sad">
+		fish taco
+		<salsa>mild</salsa>
+		hi
+		<salsa type="2">weak</salsa>
+	</taco>
+	<taco mood="party!"/>
+</parent>
+<parent2>
+	<hi>is a nice thing to say</hi>
+	<node>i am another not special child node</node>
+	<date>Mon Sep 27 2010 19:04:44 GMT-0700 (PDT)</date>
+</parent2>
+*/
 var process_to_xml = function fn(node_data,node_descriptor){
 	var xml = "";
 	//if value is an array create child nodes from values
@@ -96,7 +112,7 @@ var process_to_xml = function fn(node_data,node_descriptor){
 						content += (node_data.value || '')+(node_data.text || '');
 					}
 					
-					if(node_data.children && node_data.children.length){
+					if(node_data.children){
 						content += fn(node_data.children);
 					}
 					
@@ -107,7 +123,7 @@ var process_to_xml = function fn(node_data,node_descriptor){
 					}
 
 				} else {
-					
+
 					for( var i in node_data){
 						var content = fn(node_data[i]);
 						if(content.length) {
@@ -116,7 +132,6 @@ var process_to_xml = function fn(node_data,node_descriptor){
 							xml +='<'+i+'/>';
 						}
 					}
-					
 				}
 				break;
 			case 'function':
