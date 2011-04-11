@@ -1,8 +1,8 @@
 {
 	"name":"jsontoxml",
-	"version":"0.0.1",
+	"version":"0.0.2",
 	"description":"This renders a simple javascript object structure into reasonably complicated xml/html. js objects are easier to modify than strings so no need to parse a whole dom to reliably add a few elements",
-	"homepage":"http://github.com/soldair/node-json_to_xml",
+	"homepage":"http://github.com/soldair/node-jsontoxml",
 	"main":"./jsontoxml.js",
 	"people":{
 		"author":{
@@ -13,7 +13,7 @@
 	},
 	"repository":{
 		"type":"git",
-		"url":"git://github.com/soldair/node-json_to_xml.git"
+		"url":"git://github.com/soldair/node-jsontoxml.git"
 	},
 	"engines":{"node":">=0.2.0"}
 }
