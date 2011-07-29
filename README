@@ -50,7 +50,7 @@ outputs:  // ! output is not tabbed this is an example
 		beef taco
 		<salsa>hot!</salsa>
 	</taco>
-	<taco>
+	<taco mood='sad'>
 		fish taco
 		<salsa>mild</salsa>
 		hi
