@@ -61,17 +61,17 @@ outputs:  // ! output is not tabbed this is an example
 
 ## API
 
-jsontoxml (obj)
+jsontoxml (obj,options)
   - a valid json structure to interpret
+    || a json string
   - returns an xml string 
-
-jsontoxml.obj_to_xml (obj)
-  - an alias to the exported value
-  - returns an xml string
-
-jsontoxml.json_to_xml (json string)
-  - a valid json string 
-  - returns an xml string
+  - options is optional
+    valid options are
+    - options.escape 
+      - calls escape on all values
+      - attribute values if attribute values are specified as an object
+    - options.xmlHeader
+      - starts the xml with the xml header <?xml ...?>
 
 jsontoxml.escape (string)
   - returns string with xml entities escaped
