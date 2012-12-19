@@ -33,7 +33,7 @@ var process_to_xml = function(node_data,options){
           var attrs = node_data.attrs;
 
           for(var i in attrs){
-            attributes += ' '+i+'="'+(options.esc?esc(attrs[i]):attrs[i])+'"';
+            attributes += ' '+i+'="'+(options.escape?esc(attrs[i]):attrs[i])+'"';
           }
         }
 
