@@ -1,4 +1,3 @@
-
 [![Build Status](https://secure.travis-ci.org/soldair/node-jsontoxml.png)](http://travis-ci.org/soldair/node-jsontoxml)
 
 # jsontoxml
@@ -37,8 +36,8 @@ console.log(xml);
 
 ```
 
-outputs:  // ! output is not tabbed this is an example
-
+outputs:
+```xml
 <node>text content</node>
 <parent>
 	<taco>
@@ -58,7 +57,7 @@ outputs:  // ! output is not tabbed this is an example
 	<node>i am another not special child node</node>
 	<date>Sun Sep 26 2010 17:27:29 GMT-0700 (PDT)</date>
 </parent2>
-
+```
 ## API
 
 jsontoxml (obj,options)
