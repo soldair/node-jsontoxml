@@ -129,10 +129,14 @@ module.exports.obj_to_xml = module.exports;
 module.exports.escape = esc;
 
 function esc(str){
-  return str.replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  if(!str.replace) {
+    return str;
+  } else {
+    return str.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+  }
 }
 
 module.exports.cdata = cdata;
