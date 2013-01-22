@@ -71,8 +71,11 @@ var process_to_xml = function(node_data,options){
           }
 
           //later attributes can be added here
-          if(node_data.text || node_data.value) { 
-            var c = (node_data.value || '')+(node_data.text || '');
+          if(typeof node_data.value != 'undefined') { 
+            var c = ''+node_data.value;
+            content.push(options.escape ? esc(c) : c);
+          } else if(typeof node_data.text != 'undefined') {
+            var c = ''+node_data.text;
             content.push(options.escape ? esc(c) : c);
           }
 
