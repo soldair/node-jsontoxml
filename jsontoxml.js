@@ -34,7 +34,6 @@ var process_to_xml = function(node_data,options){
 
       if(node_descriptor == 1 && node_data.name){
         var content = ""
-        , name = node_data.name
         , attributes = []
         ;
 
@@ -65,18 +64,17 @@ var process_to_xml = function(node_data,options){
           content += fn(node_data.children);
         }
 
-        xml += makeNode(name, content, attributes.join(''));
+        xml += makeNode(node_data.name, content, attributes.join(''));
 
       } else {
-
-        for( var name in node_data){
+        for(var name in node_data){
           xml += makeNode(name, fn(node_data[name]));
         }
       }
     } else if (type == 'function'){
       xml += node_data(xml,fn);
     } else {
-      xml += options.escape?esc(node_data+''):node_data+'';
+      xml += options.escape ? esc(node_data) : node_data;
     }
 
     return xml;
