@@ -17,9 +17,7 @@ var makeNode = function(name, content, attributes) {
 var process_to_xml = function(node_data,options){
 
   return (function fn(node_data,node_descriptor){
-    var xml = ""
-    , type = typeof node_data
-    ;
+    var type = typeof node_data;
     if(node_data instanceof Array) {
       type = 'array';
     } else if(node_data instanceof Date) {
@@ -29,20 +27,22 @@ var process_to_xml = function(node_data,options){
     switch(type) {
     //if value is an array create child nodes from values
       case 'array':
+        var ret = [];
         node_data.map(function(v){
-            xml += fn(v,1);
+            ret.push(fn(v,1));
             //entries that are values of an array are the only ones that can be special node descriptors
         });
+        return ret.join('');
         break;
 
       case 'date':
         // cast dates to ISO 8601 date (soap likes it)
-        xml += node_data.toJSON?node_data.toJSON():node_data+'';
+        return node_data.toJSON?node_data.toJSON():node_data+'';
         break;
 
       case 'object':
         if(node_descriptor == 1 && node_data.name){
-          var content = ""
+          var content = []
           , attributes = []
           ;
 
@@ -66,31 +66,31 @@ var process_to_xml = function(node_data,options){
           //later attributes can be added here
           if(node_data.text || node_data.value) { 
             var c = (node_data.value || '')+(node_data.text || '');
-            content += (options.escape?esc(c):c);
+            content.push(options.escape ? esc(c) : c);
           }
 
           if(node_data.children){
-            content += fn(node_data.children);
+            content.push(fn(node_data.children));
           }
 
-          xml += makeNode(node_data.name, content, attributes.join(''));
+          return makeNode(node_data.name, content.join(''), attributes.join(''));
 
         } else {
+          var nodes = [];
           for(var name in node_data){
-            xml += makeNode(name, fn(node_data[name]));
+            nodes.push(makeNode(name, fn(node_data[name])));
           }
+          return nodes.join('');
         }
         break;
 
       case 'function':
-        xml += node_data(xml,fn);
+        return node_data();
         break;
 
       default:
-        xml += options.escape ? esc(node_data) : node_data;
+        return options.escape ? esc(node_data) : node_data;
     }
-
-    return xml;
 
   }(node_data))
 };
