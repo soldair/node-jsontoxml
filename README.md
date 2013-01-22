@@ -71,6 +71,7 @@ outputs:
     - `xmlHeader` can either be boolan (add generic `<?xml …?>` header) or an object. If an object valid options are:
       - `standalone` if true, the `<?xml …?>` gets an additional attribute       `standalone="true"`.
     - `docType` if defined gets added as the `<!DOCTYPE …>` contents (unescaped).
+    - `prettyPrint` if truthy the output gets a rudimentary pretty print (good for debugging, don't expect too much)
 
 
 `jsontoxml.escape (string)`

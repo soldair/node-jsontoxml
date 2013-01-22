@@ -1,22 +1,28 @@
 //copyright Ryan Day 2010 <http://ryanday.org> [MIT Licensed]
 
-var makeNode = function(name, content, attributes) {
-  var node = ['<',name, (attributes || '')];
-  if(content && content.length > 0) {
-    node.push('>')
-    node.push(content);
-    node.push('</');
-    node.push(name);
-    node.push('>');
-  } else {
-    node.push('/>');
-  }
-  return node.join('');
-}
+
 
 var process_to_xml = function(node_data,options){
 
-  return (function fn(node_data,node_descriptor){
+  var makeNode = function(name, content, attributes, level, hasSubNodes) {
+
+    var indent = options.prettyPrint ? '\n' + new Array(level).join("\t") : '';
+
+    var node = [indent, '<',name, (attributes || '')];
+    if(content && content.length > 0) {
+      node.push('>')
+      node.push(content);
+      hasSubNodes && node.push(indent);
+      node.push('</');
+      node.push(name);
+      node.push('>');
+    } else {
+      node.push('/>');
+    }
+    return node.join('');
+  };
+
+  return (function fn(node_data,node_descriptor, level){
     var type = typeof node_data;
     if(node_data instanceof Array) {
       type = 'array';
@@ -29,9 +35,10 @@ var process_to_xml = function(node_data,options){
       case 'array':
         var ret = [];
         node_data.map(function(v){
-            ret.push(fn(v,1));
+            ret.push(fn(v,1, level+1));
             //entries that are values of an array are the only ones that can be special node descriptors
         });
+        ret.push('\n');
         return ret.join('');
         break;
 
@@ -70,16 +77,17 @@ var process_to_xml = function(node_data,options){
           }
 
           if(node_data.children){
-            content.push(fn(node_data.children));
+            content.push(fn(node_data.children,0,level+1));
           }
 
-          return makeNode(node_data.name, content.join(''), attributes.join(''));
+          return makeNode(node_data.name, content.join(''), attributes.join(''),level,!!node_data.children);
 
         } else {
           var nodes = [];
           for(var name in node_data){
-            nodes.push(makeNode(name, fn(node_data[name])));
+            nodes.push(makeNode(name, fn(node_data[name],0,level+1),null,level+1));
           }
+          nodes.length > 0 && nodes.push('\n');
           return nodes.join('');
         }
         break;
@@ -92,7 +100,7 @@ var process_to_xml = function(node_data,options){
         return options.escape ? esc(node_data) : node_data;
     }
 
-  }(node_data))
+  }(node_data, 0, 0))
 };
 
 
@@ -137,10 +145,16 @@ module.exports = function(obj,options){
       xmlheader = xml_header();
     }
   }
+  options = options || {}
 
+  var ret = [
+    xmlheader,
+    (options.prettyPrint && docType ? '\n' : ''),
+    docType,
+    process_to_xml(obj,options)
+  ];
 
-  var xml = process_to_xml(obj,options||{});
-  return xmlheader+docType+xml;
+  return ret.join('');
 }
 
 module.exports.json_to_xml= 
