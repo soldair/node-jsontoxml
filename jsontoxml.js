@@ -38,7 +38,7 @@ var process_to_xml = function(node_data,options){
             ret.push(fn(v,1, level+1));
             //entries that are values of an array are the only ones that can be special node descriptors
         });
-        ret.push('\n');
+        options.prettyPrint && ret.push('\n');
         return ret.join('');
         break;
 
@@ -90,7 +90,7 @@ var process_to_xml = function(node_data,options){
           for(var name in node_data){
             nodes.push(makeNode(name, fn(node_data[name],0,level+1),null,level+1));
           }
-          nodes.length > 0 && nodes.push('\n');
+          options.prettyPrint && nodes.length > 0 && nodes.push('\n');
           return nodes.join('');
         }
         break;
