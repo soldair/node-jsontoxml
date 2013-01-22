@@ -1,4 +1,4 @@
-//copyright Ryan Day 2010 <http://ryanday.org> [MIT Licensed]
+//copyright Ryan Day 2010 <http://ryanday.org>, Joscha Feth 2013 <http://www.feth.com> [MIT Licensed]
 
 
 
