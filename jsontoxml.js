@@ -97,7 +97,7 @@ var process_to_xml = function(node_data,options){
         break;
 
       default:
-        return options.escape ? esc(node_data) : node_data;
+        return options.escape ? esc(node_data) : ''+node_data;
     }
 
   }(node_data, 0, 0))
@@ -163,14 +163,10 @@ module.exports.obj_to_xml = module.exports;
 module.exports.escape = esc;
 
 function esc(str){
-  if(!str.replace) {
-    return str;
-  } else {
-    return str.replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-  }
+  return (''+str).replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
 }
 
 module.exports.cdata = cdata;
