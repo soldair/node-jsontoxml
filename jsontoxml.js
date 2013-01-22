@@ -108,7 +108,7 @@ var xml_header = function(standalone) {
   var ret = ['<?xml version="1.0" encoding="utf-8"'];
 
   if(standalone) {
-    ret.push(' standalone="true"');
+    ret.push(' standalone="yes"');
   }
   
   ret.push('?>');
