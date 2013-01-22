@@ -1,5 +1,19 @@
 //copyright Ryan Day 2010 <http://ryanday.org> [MIT Licensed]
 
+var makeNode = function(name, content, attributes) {
+  var node = ['<',name, (attributes || '')];
+  if(content && content.length > 0) {
+    node.push('>')
+    node.push(content);
+    node.push('</');
+    node.push(name);
+    node.push('>');
+  } else {
+    node.push('/>');
+  }
+  return node.join('');
+}
+
 var process_to_xml = function(node_data,options){
 
   return (function fn(node_data,node_descriptor){
@@ -51,21 +65,12 @@ var process_to_xml = function(node_data,options){
           content += fn(node_data.children);
         }
 
-        if(content.length) {
-          xml +='<'+name+attributes.join('')+'>'+content+'</'+name+'>';
-        } else {
-          xml +='<'+name+attributes.join('')+'/>';
-        }
+        xml += makeNode(name, content, attributes.join(''));
 
       } else {
 
-        for( var i in node_data){
-          var content = fn(node_data[i]);
-          if(content.length) {
-            xml +='<'+i+'>'+content+'</'+i+'>';
-          } else {
-            xml +='<'+i+'/>';
-          }
+        for( var name in node_data){
+          xml += makeNode(name, fn(node_data[name]));
         }
       }
     } else if (type == 'function'){
