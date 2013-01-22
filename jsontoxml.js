@@ -21,19 +21,23 @@ var process_to_xml = function(node_data,options){
       if(node_descriptor == 1 && node_data.name){
         var content = ""
         , name = node_data.name
-        , attributes = ""
+        , attributes = []
         ;
 
         if(node_data.attrs) {
           if(typeof node_data.attrs != 'object') {
-            attributes +=' '+node_data.attrs;
-            node_data.attrs = {};
-          }
-
-          var attrs = node_data.attrs;
-
-          for(var i in attrs){
-            attributes += ' '+i+'="'+(options.escape?esc(attrs[i]):attrs[i])+'"';
+          // attrs is a string, etc. - just use it as an attribute
+            attributes.push(' ');
+            attributes.push(node_data.attrs);
+          } else {
+            for(var key in node_data.attrs){
+              var value = node_data.attrs[key];
+              attributes.push(' ');
+              attributes.push(key);
+              attributes.push('="')
+              attributes.push(options.escape ? esc(value) : value);
+              attributes.push('"');
+            }
           }
         }
 
@@ -48,9 +52,9 @@ var process_to_xml = function(node_data,options){
         }
 
         if(content.length) {
-          xml +='<'+name+attributes+'>'+content+'</'+name+'>';
+          xml +='<'+name+attributes.join('')+'>'+content+'</'+name+'>';
         } else {
-          xml +='<'+name+attributes+'/>';
+          xml +='<'+name+attributes.join('')+'/>';
         }
 
       } else {
