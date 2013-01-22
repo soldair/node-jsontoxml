@@ -99,6 +99,7 @@ module.exports = function(obj,options){
   }
 
   var xmlheader = '';
+  var docType = '';
   if(options) {
     if(typeof options == 'object') {
       // our config is an object
@@ -106,6 +107,10 @@ module.exports = function(obj,options){
       if(options.xmlHeader) {
         // the user wants an xml header
         xmlheader = xml_header(!!options.xmlHeader.standalone);
+      }
+
+      if(typeof options.docType != 'undefined') {
+        docType = '<!DOCTYPE '+options.docType+'>'
       }
     } else {
       // our config is a boolean value, so just add xml header
@@ -115,7 +120,7 @@ module.exports = function(obj,options){
 
 
   var xml = process_to_xml(obj,options||{});
-  return xmlheader+xml;
+  return xmlheader+docType+xml;
 }
 
 module.exports.json_to_xml= 

@@ -69,7 +69,9 @@ outputs:
       * calls escape on all values
       * attribute values if attribute values are specified as an object
     - `xmlHeader` can either be boolan (add generic `<?xml …?>` header) or an object. If an object valid options are:
-      - `standalone` if true, the `<?xml …?>` gets an additional attribute `standalone="true"`.
+      - `standalone` if true, the `<?xml …?>` gets an additional attribute       `standalone="true"`.
+    - `docType` if defined gets added as the `<!DOCTYPE …>` contents (unescaped).
+
 
 `jsontoxml.escape (string)`
 
