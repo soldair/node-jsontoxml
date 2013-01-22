@@ -76,7 +76,17 @@ var process_to_xml = function(node_data,options){
 };
 
 
-var xml_header = '<?xml version="1.0" encoding="utf-8"?>';
+var xml_header = function(standalone) {
+  var ret = ['<?xml version="1.0" encoding="utf-8"'];
+
+  if(standalone) {
+    ret.push(' standalone="true"');
+  }
+  
+  ret.push('?>');
+
+  return ret.join('');
+};
 
 module.exports = function(obj,options){
 
@@ -89,9 +99,19 @@ module.exports = function(obj,options){
   }
 
   var xmlheader = '';
-  if(options && typeof options == 'object') {
-    xmlheader = options.xmlHeader?xml_header:'';
-  } else if(options) xmlheader = xml_header;
+  if(options) {
+    if(typeof options == 'object') {
+      // our config is an object
+
+      if(options.xmlHeader) {
+        // the user wants an xml header
+        xmlheader = xml_header(!!options.xmlHeader.standalone);
+      }
+    } else {
+      // our config is a boolean value, so just add xml header
+      xmlheader = xml_header();
+    }
+  }
 
 
   var xml = process_to_xml(obj,options||{});
