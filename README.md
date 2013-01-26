@@ -60,25 +60,29 @@ outputs:
 ```
 ## API
 
-jsontoxml (obj,options)
-  - a valid json structure to interpret
-    || a json string
-  - returns an xml string 
-  - options is optional
-    valid options are
-    - options.escape 
-      - calls escape on all values
-      - attribute values if attribute values are specified as an object
-    - options.xmlHeader
-      - starts the xml with the xml header <?xml ...?>
+`jsontoxml (obj,options)`
 
-jsontoxml.escape (string)
-  - returns string with xml entities escaped
-  - escapes "" & < >
+* a valid json structure to interpret or a json string
+* returns an xml string
+  * `options` is optional. it can be true (add generic xml header) or an object. If an object, valid options are:
+    - `escape`
+      * calls escape on all values
+      * attribute values if attribute values are specified as an object
+    - `xmlHeader` can either be boolan (add generic `<?xml …?>` header) or an object. If an object valid options are:
+      - `standalone` if true, the `<?xml …?>` gets an additional attribute       `standalone="true"`.
+    - `docType` if defined gets added as the `<!DOCTYPE …>` contents (unescaped).
+    - `prettyPrint` if truthy the output gets a rudimentary pretty print (good for debugging, don't expect too much)
 
-jsontoxml.cdata (string)
-  - wraps string with <!CDATA[[ ]]> 
-  - removes all occurences of close cdata ]]> in input text
+
+`jsontoxml.escape (string)`
+
+* returns string with xml entities escaped
+* escapes `"" & < >`
+
+`jsontoxml.cdata (string)`
+ 
+ * wraps string with `<!CDATA[[ ]]>`
+ * removes all occurences of close cdata (`]]>`) in input text
 
 ## more description
 
