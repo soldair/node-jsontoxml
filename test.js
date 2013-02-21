@@ -14,7 +14,12 @@ var input = {
      'hi',
      {name:'salsa',text:'weak',attrs:{type:2}}
     ]},
-    {name:'taco',attrs:{mood:"party!"}}
+    {name:'taco',attrs:{mood:"party!"}},
+    {name: 'price', value: 0},
+    {name: 'emptyTag', value: null},
+    '', // dont generate tag
+    undefined,
+    null
   ],
   parent2:{
     hi:'this & this is a nice thing to say',
@@ -39,6 +44,8 @@ var expected = '<node>text content</node>'
     +'<salsa type="2">weak</salsa>'
   +'</taco>'
   +"<taco mood=\"party!\"/>"
+  +'<price>0</price>'
+  +'<emptyTag/>'
 +'</parent>'
 +'<parent2>'
   +'<hi>this &amp; this is a nice thing to say</hi>'

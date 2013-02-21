@@ -1,182 +1,112 @@
-//copyright Ryan Day 2010 <http://ryanday.org>, Joscha Feth 2013 <http://www.feth.com> [MIT Licensed]
+//copyright Ryan Day 2010 <http://ryanday.org> [MIT Licensed]
 
+var process_to_xml = function(node_data, options) {
 
+	return (function fn(node_data, node_descriptor) {
+		var xml = "",
+			type = typeof node_data;
 
-var process_to_xml = function(node_data,options){
+		//if value is an array create child nodes from values
+		if (node_data instanceof Array) {
+			node_data.map(function(v){
+					xml += fn(v,1);
+					//entries that are values of an array are the only ones that can be special node descriptors
+			});
+		}
+		else if (node_data instanceof Date) {
+			// cast dates to ISO 8601 date (soap likes it)
+			xml += node_data.toJSON?node_data.toJSON():node_data+'';
+		}
+		else if (node_data && node_data.constructor === Object) {
+			if (node_descriptor == 1 && node_data.name) {
+				var content = "",
+					name = node_data.name,
+					attributes = "";
 
-  var makeNode = function(name, content, attributes, level, hasSubNodes) {
+				if (node_data.attrs) {
+					if (typeof node_data.attrs != 'object') {
+						attributes +=' '+node_data.attrs;
+						node_data.attrs = {};
+					}
 
-    var indent = options.prettyPrint ? '\n' + new Array(level).join("\t") : '';
+					var attrs = node_data.attrs;
 
-    var node = [indent, '<',name, (attributes || '')];
-    if(content && content.length > 0) {
-      node.push('>')
-      node.push(content);
-      hasSubNodes && node.push(indent);
-      node.push('</');
-      node.push(name);
-      node.push('>');
-    } else {
-      node.push('/>');
-    }
-    return node.join('');
-  };
-
-  return (function fn(node_data,node_descriptor, level){
-    var type = typeof node_data;
-    if(node_data instanceof Array) {
-      type = 'array';
-    } else if(node_data instanceof Date) {
-      type = 'date';
-    }
-
-    switch(type) {
-    //if value is an array create child nodes from values
-      case 'array':
-        var ret = [];
-        node_data.map(function(v){
-            ret.push(fn(v,1, level+1));
-            //entries that are values of an array are the only ones that can be special node descriptors
-        });
-        options.prettyPrint && ret.push('\n');
-        return ret.join('');
-        break;
-
-      case 'date':
-        // cast dates to ISO 8601 date (soap likes it)
-        return node_data.toJSON?node_data.toJSON():node_data+'';
-        break;
-
-      case 'object':
-        if(node_descriptor == 1 && node_data.name){
-          var content = []
-          , attributes = []
-          ;
-
-          if(node_data.attrs) {
-            if(typeof node_data.attrs != 'object') {
-            // attrs is a string, etc. - just use it as an attribute
-              attributes.push(' ');
-              attributes.push(node_data.attrs);
-            } else {
-              for(var key in node_data.attrs){
-                var value = node_data.attrs[key];
-                attributes.push(' ');
-                attributes.push(key);
-                attributes.push('="')
-                attributes.push(options.escape ? esc(value) : value);
-                attributes.push('"');
-              }
-            }
-          }
-
-          //later attributes can be added here
-          if(typeof node_data.value != 'undefined') { 
-            var c = ''+node_data.value;
-            content.push(options.escape ? esc(c) : c);
-          } else if(typeof node_data.text != 'undefined') {
-            var c = ''+node_data.text;
-            content.push(options.escape ? esc(c) : c);
-          }
-
-          if(node_data.children){
-            content.push(fn(node_data.children,0,level+1));
-          }
-
-          return makeNode(node_data.name, content.join(''), attributes.join(''),level,!!node_data.children);
-
-        } else {
-          var nodes = [];
-          for(var name in node_data){
-            nodes.push(makeNode(name, fn(node_data[name],0,level+1),null,level+1));
-          }
-          options.prettyPrint && nodes.length > 0 && nodes.push('\n');
-          return nodes.join('');
-        }
-        break;
-
-      case 'function':
-        return node_data();
-        break;
-
-      default:
-        return options.escape ? esc(node_data) : ''+node_data;
-    }
-
-  }(node_data, 0, 0))
+					for (var i in attrs) {
+						attributes += ' '+i+'="'+(options.esc?esc(attrs[i]):attrs[i])+'"';
+					}
+				}
+				// later attributes can be added here
+				if (node_data.text != null || node_data.value != null) { 
+					var c = ""+node_data.text;
+					if (node_data.value != null)
+						c = ""+node_data.value;
+					content += (options.escape?esc(c):c);
+				}
+				if (node_data.children) {
+					content += fn(node_data.children);
+				}
+				if (content.length) {
+					xml +='<'+name+attributes+'>'+content+'</'+name+'>';
+				}
+				else {
+					xml +='<'+name+attributes+'/>';
+				}
+			}
+			else {
+				for (var i in node_data) {
+					var content = fn(node_data[i]);
+					if (content.length) {
+						xml +='<'+i+'>'+content+'</'+i+'>';
+					}
+					else {
+						xml +='<'+i+'/>';
+					}
+				}
+			}
+		}
+		else if (type == 'function') {
+			xml += node_data(xml,fn);
+		}
+		else if (node_data) {
+			xml += options.escape ? esc(node_data+'') : node_data+'';
+		}
+		return xml;
+	}(node_data))
 };
 
 
-var xml_header = function(standalone) {
-  var ret = ['<?xml version="1.0" encoding="utf-8"'];
+var xml_header = '<?xml version="1.0" encoding="utf-8"?>';
 
-  if(standalone) {
-    ret.push(' standalone="yes"');
-  }
-  
-  ret.push('?>');
+module.exports = function (obj, options) {
+	var xmlheader = '',
+		xml;
 
-  return ret.join('');
-};
-
-module.exports = function(obj,options){
-
-  if(typeof obj == 'string' || obj instanceof Buffer) {
-    try{
-      obj = JSON.parse(obj.toString());
-    } catch(e){
-      return false;
-    }
-  }
-
-  var xmlheader = '';
-  var docType = '';
-  if(options) {
-    if(typeof options == 'object') {
-      // our config is an object
-
-      if(options.xmlHeader) {
-        // the user wants an xml header
-        xmlheader = xml_header(!!options.xmlHeader.standalone);
-      }
-
-      if(typeof options.docType != 'undefined') {
-        docType = '<!DOCTYPE '+options.docType+'>'
-      }
-    } else {
-      // our config is a boolean value, so just add xml header
-      xmlheader = xml_header();
-    }
-  }
-  options = options || {}
-
-  var ret = [
-    xmlheader,
-    (options.prettyPrint && docType ? '\n' : ''),
-    docType,
-    process_to_xml(obj,options)
-  ];
-
-  return ret.join('');
+	if (typeof obj == 'string' || obj instanceof Buffer) {
+		try {
+			obj = JSON.parse(obj.toString());
+		} catch(e) {
+			return false;
+		}
+	}
+	options = typeof options === 'object' ? options : {};
+	xmlheader = options.xmlHeader? xml_header : '';
+	xml = process_to_xml(obj, (options || {}));
+	return xmlheader + xml;
 }
 
-module.exports.json_to_xml= 
-module.exports.obj_to_xml = module.exports;
+module.exports.json_to_xml = module.exports.obj_to_xml = module.exports;
 
 module.exports.escape = esc;
 
 function esc(str){
-  return (''+str).replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+	return str.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;');
 }
 
 module.exports.cdata = cdata;
 
 function cdata(str){
-  return "<!CDATA[["+str.replace(/]]>/g,'')+']]>';
+	return "<!CDATA[["+str.replace(/]]>/g,'')+']]>';
 };
-
-
-
