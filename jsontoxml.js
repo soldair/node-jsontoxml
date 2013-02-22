@@ -121,6 +121,7 @@ var xml_header = function(standalone) {
 
 module.exports = function(obj,options){
 
+  if (!this.Buffer) function Buffer() {};
   if(typeof obj == 'string' || obj instanceof Buffer) {
     try{
       obj = JSON.parse(obj.toString());
