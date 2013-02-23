@@ -71,7 +71,7 @@ var process_to_xml = function(node_data,options){
           }
 
           //later attributes can be added here
-          if(typeof node_data.value != 'undefined') { 
+          if(typeof node_data.value != 'undefined') {
             var c = ''+node_data.value;
             content.push(options.escape ? esc(c) : c);
           } else if(typeof node_data.text != 'undefined') {
@@ -113,7 +113,7 @@ var xml_header = function(standalone) {
   if(standalone) {
     ret.push(' standalone="yes"');
   }
-  
+
   ret.push('?>');
 
   return ret.join('');
@@ -121,7 +121,8 @@ var xml_header = function(standalone) {
 
 module.exports = function(obj,options){
 
-  if (!this.Buffer) function Buffer() {};
+  var Buffer = this.Buffer || function Buffer () {};
+
   if(typeof obj == 'string' || obj instanceof Buffer) {
     try{
       obj = JSON.parse(obj.toString());
@@ -161,7 +162,7 @@ module.exports = function(obj,options){
   return ret.join('');
 }
 
-module.exports.json_to_xml= 
+module.exports.json_to_xml=
 module.exports.obj_to_xml = module.exports;
 
 module.exports.escape = esc;
