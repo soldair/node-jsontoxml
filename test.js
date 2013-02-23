@@ -19,9 +19,7 @@ var input = {
   parent2:{
     hi:'this & this is a nice thing to say',
     node:'i am another not special child node',
-    date:function(){
-      return date+'';
-    },
+    date:date+'',
     date2:date
   }
 };
@@ -47,9 +45,17 @@ var expected = '<node>text content</node>'
   +'<date2>'+date.toJSON()+'</date2>'
 +'</parent2>';
 
-test("creates correct object",function(t){
-  var result = jsonxml(input,{escape:true});
+var buffer = new Buffer(JSON.stringify(input));
+
+test("creates correct object from buffer",function(t){
+  var result = jsonxml(buffer,{escape:true});
   t.equals(result,expected,' should have generated correct xml');
   t.end()
 });
 
+test("creates correct object",function(t){
+  var result = jsonxml(input,{escape:true});
+  t.equals(result,expected,' should have generated correct xml');
+  console.log(result)
+  t.end()
+});
