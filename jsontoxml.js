@@ -179,10 +179,7 @@ function cdata(str){
 };
 
 function isBuffer(b){
- try{
-   return (b instanceof Buffer);
- } catch(e) {
-   return false;
- }
+  if(typeof Buffer == 'undefined') return false;
+  return (b instanceof Buffer);
 }
 
