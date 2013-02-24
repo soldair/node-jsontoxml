@@ -1,6 +1,6 @@
 //copyright Ryan Day 2010 <http://ryanday.org> [MIT Licensed]
 
-var test = require('tap').test
+var test = require('tape')
 , jsonxml = require("./jsontoxml.js")
 ;
 
