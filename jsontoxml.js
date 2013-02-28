@@ -175,7 +175,7 @@ function esc(str){
 module.exports.cdata = cdata;
 
 function cdata(str){
-  return "<!CDATA[["+str.replace(/]]>/g,'')+']]>';
+  return "<![CDATA["+str.replace(/]]>/g,'')+']]>';
 };
 
 function isBuffer(b){
