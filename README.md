@@ -1,5 +1,7 @@
 [![Build Status](https://secure.travis-ci.org/soldair/node-jsontoxml.png)](http://travis-ci.org/soldair/node-jsontoxml)
 
+[![browser support](http://ci.testling.com/soldair/node-jsontoxml.png)](http://ci.testling.com/soldair/node-jsontoxml)
+
 # jsontoxml
 
 This is a library designed to render js objects as xml. Its not made to parse or otherwise edit existing xml/html structures.

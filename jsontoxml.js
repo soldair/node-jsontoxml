@@ -121,9 +121,7 @@ var xml_header = function(standalone) {
 
 module.exports = function(obj,options){
 
-  var Buffer = this.Buffer || function Buffer () {};
-
-  if(typeof obj == 'string' || obj instanceof Buffer) {
+  if(typeof obj == 'string' || isBuffer(obj)) {
     try{
       obj = JSON.parse(obj.toString());
     } catch(e){
@@ -155,7 +153,7 @@ module.exports = function(obj,options){
   var ret = [
     xmlheader,
     (options.prettyPrint && docType ? '\n' : ''),
-    docType,
+  docType,
     process_to_xml(obj,options)
   ];
 
@@ -181,5 +179,8 @@ function cdata(str){
   return "<!CDATA[[]]>";
 };
 
-
+function isBuffer(b){
+  if(typeof Buffer == 'undefined') return false;
+  return (b instanceof Buffer);
+}
 
