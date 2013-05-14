@@ -122,7 +122,9 @@ var xml_header = function(standalone) {
 
 module.exports = function(obj,options){
 
-  if(typeof obj == 'string' || isBuffer(obj)) {
+  var Buffer = this.Buffer || function Buffer () {};
+
+  if(typeof obj == 'string' || obj instanceof Buffer) {
     try{
       obj = JSON.parse(obj.toString());
     } catch(e){
@@ -179,9 +181,3 @@ function cdata(str){
   if(str) return "<![CDATA["+str.replace(/]]>/g,'')+']]>';
   return "<![CDATA[]]>";
 };
-
-function isBuffer(b){
-  if(typeof Buffer == 'undefined') return false;
-  return (b instanceof Buffer);
-}
-
