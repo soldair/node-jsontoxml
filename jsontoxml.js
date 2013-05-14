@@ -6,7 +6,8 @@ var process_to_xml = function(node_data,options){
 
   var makeNode = function(name, content, attributes, level, hasSubNodes) {
 
-    var indent = options.prettyPrint ? '\n' + new Array(level).join("\t") : '';
+    var indent_value = options.indent !== undefined ? options.indent : "\t";
+    var indent = options.prettyPrint ? '\n' + new Array(level).join(indent_value) : '';
 
     var node = [indent, '<',name, (attributes || '')];
     if(content && content.length > 0) {

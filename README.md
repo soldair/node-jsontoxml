@@ -74,6 +74,7 @@ outputs:
       - `standalone` if true, the `<?xml …?>` gets an additional attribute       `standalone="true"`.
     - `docType` if defined gets added as the `<!DOCTYPE …>` contents (unescaped).
     - `prettyPrint` if truthy the output gets a rudimentary pretty print (good for debugging, don't expect too much)
+    - `indent` specify what unit you would like to indent by (spaces, tabstop, nothing - pass an empty string)
 
 
 `jsontoxml.escape (string)`
@@ -82,8 +83,8 @@ outputs:
 * escapes `"" & < >`
 
 `jsontoxml.cdata (string)`
- 
- * wraps string with `<!CDATA[[ ]]>`
+
+ * wraps string with `<![CDATA[ ]]>`
  * removes all occurences of close cdata (`]]>`) in input text
 
 ## more description
