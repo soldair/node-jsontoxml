@@ -25,7 +25,7 @@ var process_to_xml = function(node_data,options){
 
   return (function fn(node_data,node_descriptor, level){
     var type = typeof node_data;
-    if(node_data instanceof Array) {
+    if((Array.isArray) ? Array.isArray(node_data) : node_data instanceof Array) {
       type = 'array';
     } else if(node_data instanceof Date) {
       type = 'date';
