@@ -1,6 +1,9 @@
 //copyright Ryan Day 2010 <http://ryanday.org>, Joscha Feth 2013 <http://www.feth.com> [MIT Licensed]
 
-
+var element_start_char = 
+	"a-zA-Z_\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FFF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD";
+var element_non_start_char = "\-.0-9\u00B7\u0300-\u036F\u203F\u2040"; 
+var element_replace = new RegExp("^([^" + element_start_char + "])|^((x|X)(m|M)(l|L))|([^" + element_start_char + element_non_start_char + "])", "g");
 
 var process_to_xml = function(node_data,options){
 
@@ -8,6 +11,9 @@ var process_to_xml = function(node_data,options){
 
     var indent_value = options.indent !== undefined ? options.indent : "\t";
     var indent = options.prettyPrint ? '\n' + new Array(level).join(indent_value) : '';
+    if(options.remove_illegal_name_characters) {
+	name = name.replace(element_replace, '_');
+    }
 
     var node = [indent, '<',name, (attributes || '')];
     if(content && content.length > 0) {
@@ -172,7 +178,7 @@ function esc(str){
   return (''+str).replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
-      .replace(/'/g, '&apos;)
+      .replace(/'/g, '&apos;')
       .replace(/"/g, '&quot;');
 }
 
