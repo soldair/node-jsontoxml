@@ -1,8 +1,8 @@
 {
   "name": "jsontoxml",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "This is a library designed to render js objects as xml. Its not made to parse or otherwise edit existing xml/html structures.",
-  "homepage": "http://github.com/soldair/node-jsontoxml",
+  "homepage": "http://github.com/ken-franken/node-jsontoxml",
   "main": "./jsontoxml.js",
   "devDependencies": {
     "tape": "~0.2.2"
@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/soldair/node-jsontoxml.git"
+    "url": "git://github.com/ken-franken/node-jsontoxml.git"
   },
   "license": "MIT",
   "engines": {
