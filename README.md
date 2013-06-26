@@ -75,6 +75,7 @@ outputs:
     - `docType` if defined gets added as the `<!DOCTYPE …>` contents (unescaped).
     - `prettyPrint` if truthy the output gets a rudimentary pretty print (good for debugging, don't expect too much)
     - `indent` specify what unit you would like to indent by (spaces, tabstop, nothing - pass an empty string)
+    - `removeIllegalNameCharacters` replace illegal XML element Name characters with '_'
 
 
 `jsontoxml.escape (string)`

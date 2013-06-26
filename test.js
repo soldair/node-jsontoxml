@@ -87,7 +87,7 @@ test("creates correct object from string",function(t){
 });
 
 test("creates correct object with element fixup",function(t){
-  var result = jsonxml(input,{escape:true, remove_illegal_name_characters:true});
+  var result = jsonxml(input,{escape:true, removeIllegalNameCharacters:true});
   t.equals(result,expected_with_element_substitution,' test should have generated correct xml');
   t.end()
 });

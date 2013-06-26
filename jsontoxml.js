@@ -11,7 +11,7 @@ var process_to_xml = function(node_data,options){
 
     var indent_value = options.indent !== undefined ? options.indent : "\t";
     var indent = options.prettyPrint ? '\n' + new Array(level).join(indent_value) : '';
-    if(options.remove_illegal_name_characters) {
+    if(options.removeIllegalNameCharacters) {
 	name = name.replace(element_replace, '_');
     }
 
