@@ -27,7 +27,7 @@ var xml = jsonxml({
 	],
 	parent2:{
 		hi:'is a nice thing to say',
-		node:'i am another not special child node'
+		node:'i am another not special child node',
 		date:function(){
 			return (new Date())+'';
 		}
