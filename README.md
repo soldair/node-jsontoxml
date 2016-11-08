@@ -27,7 +27,7 @@ var xml = jsonxml({
 	],
 	parent2:{
 		hi:'is a nice thing to say',
-		node:'i am another not special child node'
+		node:'i am another not special child node',
 		date:function(){
 			return (new Date())+'';
 		}
@@ -71,7 +71,7 @@ outputs:
       * calls escape on all values
       * attribute values if attribute values are specified as an object
     - `xmlHeader` can either be boolan (add generic `<?xml …?>` header) or an object. If an object valid options are:
-      - `standalone` if true, the `<?xml …?>` gets an additional attribute       `standalone="true"`.
+      - `standalone` if true, the `<?xml …?>` gets an additional attribute       `standalone="yes"`.
     - `docType` if defined gets added as the `<!DOCTYPE …>` contents (unescaped).
     - `prettyPrint` if truthy the output gets a rudimentary pretty print (good for debugging, don't expect too much)
     - `indent` specify what unit you would like to indent by (spaces, tabstop, nothing - pass an empty string)
