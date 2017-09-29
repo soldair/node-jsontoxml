@@ -8,7 +8,7 @@ var date = (new Date());
 var input = {
   node:'text content',
   parent:[
-    {name:'taco',text:'beef taco',children:{salsa:'hot!'}},
+    {name:'taco',text:'beef taco',children:{salsa:'hot!'}},
     {name:'xml',text:'tag'},
     {name:'taco',text:'fish taco',attrs:{mood:'sad'},children:[
      {name:'salsa',text:'mild'},
