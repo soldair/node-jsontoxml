@@ -4,7 +4,6 @@ var element_start_char =
 	"a-zA-Z_\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FFF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD";
 var element_non_start_char = "\-.0-9\u00B7\u0300-\u036F\u203F\u2040"; 
 var element_replace = new RegExp("^([^" + element_start_char + "])|^((x|X)(m|M)(l|L))|([^" + element_start_char + element_non_start_char + "])", "g");
-var not_safe_in_xml = /[^\x09\x0A\x0D\x20-\xFF\x85\xA0-\uD7FF\uE000-\uFDCF\uFDE0-\uFFFD]/gm;
 
 var process_to_xml = function(node_data,options){
 
@@ -81,10 +80,10 @@ var process_to_xml = function(node_data,options){
           //later attributes can be added here
           if(typeof node_data.value != 'undefined') {
             var c = ''+node_data.value;
-            content.push(options.escape ? esc(c) : c);
+            content.push(options.escape && !node_data.noescape ? esc(c) : c);
           } else if(typeof node_data.text != 'undefined') {
             var c = ''+node_data.text;
-            content.push(options.escape ? esc(c) : c);
+            content.push(options.escape && !node_data.noescape ? esc(c) : c);
           }
 
           if(node_data.children){
@@ -180,8 +179,7 @@ function esc(str){
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/'/g, '&apos;')
-      .replace(/"/g, '&quot;')
-      .replace(not_safe_in_xml, '');
+      .replace(/"/g, '&quot;');
 }
 
 module.exports.cdata = cdata;
