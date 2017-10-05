@@ -81,10 +81,10 @@ var process_to_xml = function(node_data,options){
           //later attributes can be added here
           if(typeof node_data.value != 'undefined') {
             var c = ''+node_data.value;
-            content.push(options.escape ? esc(c) : c);
+            content.push(options.escape && !node_data.noescape ? esc(c) : c);
           } else if(typeof node_data.text != 'undefined') {
             var c = ''+node_data.text;
-            content.push(options.escape ? esc(c) : c);
+            content.push(options.escape && !node_data.noescape ? esc(c) : c);
           }
 
           if(node_data.children){

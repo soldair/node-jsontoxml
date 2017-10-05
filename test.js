@@ -15,7 +15,8 @@ var input = {
      'hi',
      {name:'salsa',text:'weak',attrs:{type:2}}
     ]},
-    {name:'taco',attrs:{mood:"party!"}}
+    {name:'taco',attrs:{mood:"party!"}},
+    {name:'andrew', text:"<wuz>here</wuz>", noescape:true}
   ],
   parent2:{
     hi:'this & this is a nice thing to say',
@@ -40,6 +41,7 @@ var expected_no_element_substitution =
     +'<salsa type="2">weak</salsa>'
   +'</taco>'
   +"<taco mood=\"party!\"/>"
+  +"<andrew><wuz>here</wuz></andrew>"
 +'</parent>'
 +'<parent2>'
   +'<hi>this &amp; this is a nice thing to say</hi>'
@@ -63,6 +65,7 @@ var expected_with_element_substitution =
     +'<salsa type="2">weak</salsa>'
   +'</taco>'
   +"<taco mood=\"party!\"/>"
+  +"<andrew><wuz>here</wuz></andrew>"
 +'</parent>'
 +'<parent2>'
   +'<hi>this &amp; this is a nice thing to say</hi>'
