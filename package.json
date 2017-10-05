@@ -1,6 +1,6 @@
 {
   "name": "jsontoxml",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "description": "This is a library designed to render js objects as xml. Its not made to parse or otherwise edit existing xml/html structures.",
   "homepage": "http://github.com/ken-franken/node-jsontoxml",
   "main": "./jsontoxml.js",
