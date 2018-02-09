@@ -76,7 +76,7 @@ outputs:
     - `prettyPrint` if truthy the output gets a rudimentary pretty print (good for debugging, don't expect too much)
     - `indent` specify what unit you would like to indent by (spaces, tabstop, nothing - pass an empty string)
     - `removeIllegalNameCharacters` replace illegal XML element Name characters with '_'
-
+    - `html` instead of adding self closing tags for empty tags add an open and close tag. `<salsa/>` becomes `<salsa></salsa>`
 
 `jsontoxml.escape (string)`
 
