@@ -95,3 +95,11 @@ test("creates correct object with element fixup",function(t){
   t.end()
 });
 
+test("creates open and close tag on empty body",function(t){
+
+  var o = [{name:'salsa',text:''}]
+  var result = jsonxml(o,{html:true});
+  t.equals(result,'<salsa></salsa>')
+  t.end()
+});
+
