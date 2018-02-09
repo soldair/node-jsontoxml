@@ -17,7 +17,7 @@ var process_to_xml = function(node_data,options){
     }
 
     var node = [indent, '<',name, (attributes || '')];
-    if(content && content.length > 0) {
+    if(content && content.length > 0 || options.html) {
       node.push('>')
       node.push(content);
       hasSubNodes && node.push(indent);
