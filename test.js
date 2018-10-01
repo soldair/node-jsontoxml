@@ -75,7 +75,7 @@ var expected_with_element_substitution =
 +'</parent2>';
 
 var expected = expected_no_element_substitution;
-var buffer = new Buffer(JSON.stringify(input));
+var buffer = Buffer.from?Buffer.from(JSON.stringify(input)):new Buffer(JSON.stringify(input));
 
 test("creates correct object from buffer",function(t){
   var result = jsonxml(buffer,{escape:true});

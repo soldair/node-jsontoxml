@@ -129,9 +129,9 @@ var xml_header = function(standalone) {
 
 module.exports = function(obj,options){
 
-  var Buffer = this.Buffer || function Buffer () {};
+  var Buf = typeof Buffer !== 'undefined' ? Buffer : function Buffer () {};
 
-  if(typeof obj == 'string' || obj instanceof Buffer) {
+  if(typeof obj == 'string' || obj instanceof Buf) {
     try{
       obj = JSON.parse(obj.toString());
     } catch(e){
