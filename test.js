@@ -103,3 +103,23 @@ test("creates open and close tag on empty body",function(t){
   t.end()
 });
 
+var expected_with_header = '<?xml version="1.0" encoding="utf-8"?>' + expected;
+test("creates correct object and add a generic header",function(t){
+  var result = jsonxml(input,{escape:true, xmlHeader:true});
+  t.equals(result,expected_with_header,' test should have generated correct xml');
+  t.end()
+});
+
+var expected_with_encoding_header = '<?xml version="1.0" encoding="ISO-10646-UCS-4"?>' + expected;
+test("creates correct object and add a header with encoding",function(t){
+  var result = jsonxml(input,{escape:true, xmlHeader:{encoding:"ISO-10646-UCS-4"}});
+  t.equals(result,expected_with_encoding_header,' test should have generated correct xml');
+  t.end()
+});
+
+var expected_with_standalone_encoding_header = '<?xml version="1.0" standalone="yes" encoding="ISO-10646-UCS-4"?>' + expected;
+test("creates correct object and add a header with standalone, encoding",function(t){
+  var result = jsonxml(input,{escape:true, xmlHeader:{standalone:true,encoding:"ISO-10646-UCS-4"}});
+  t.equals(result,expected_with_standalone_encoding_header,' test should have generated correct xml');
+  t.end()
+});
