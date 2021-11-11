@@ -115,12 +115,18 @@ var process_to_xml = function(node_data,options){
 };
 
 
-var xml_header = function(standalone) {
-  var ret = ['<?xml version="1.0" encoding="utf-8"'];
+var xml_header = function(standalone,encoding) {
+  var ret = ['<?xml version="1.0"'];
 
   if(standalone) {
     ret.push(' standalone="yes"');
   }
+
+	if(encoding) {
+    ret.push(' encoding="' + encoding + '"');
+  } else {
+		ret.push(' encoding="utf-8"');
+	}
 
   ret.push('?>');
 
@@ -147,7 +153,7 @@ module.exports = function(obj,options){
 
       if(options.xmlHeader) {
         // the user wants an xml header
-        xmlheader = xml_header(!!options.xmlHeader.standalone);
+        xmlheader = xml_header(!!options.xmlHeader.standalone,options.xmlHeader.encoding);
       }
 
       if(typeof options.docType != 'undefined') {
